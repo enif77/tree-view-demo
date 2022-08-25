@@ -1,10 +1,24 @@
 import './TreeView.css';
 
-function TreeView() {
+import TreeViewItem from './TreeViewItem';
+
+function TreeView(props) {
+  const tasks = props.data.store;
+
   return (
-    <div className="TreeView">
-      Tree view items...
-    </div>
+    <table className="TreeView">
+      <thead>
+        <tr>
+          <th>Task_ID</th>
+          <th>Task_Subject</th>
+          <th>Task_Parent_ID</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {tasks.map((task) => <TreeViewItem key={task.Task_ID} entity={task} />)}
+      </tbody>
+    </table>
   );
 }
 
