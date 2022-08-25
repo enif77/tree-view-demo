@@ -1,11 +1,12 @@
 //import logo from './logo.svg';
 import './App.css';
 
+import './Components/TreeView';
+import TreeView from './Components/TreeView';
+
 function App() {
   return (
-    <div className="App">
-      Hello!
-    </div>
+    <TreeView />
   );
 }
 
