@@ -5,7 +5,7 @@ export function linkTasks(tasks, employees)
   tasks.forEach((task) => {
 
     // Link a child task to its parent and a parent to its child.
-    tasks.forEach((parent) => {
+    for (var parent of tasks) {
       if (task.Task_Parent_ID === parent.Task_ID) {
 
         // Child to parent.
@@ -13,18 +13,42 @@ export function linkTasks(tasks, employees)
 
         // Parent to child.
         if (!parent.Task_Children) {
-          parent.Task_Children = [];
+            parent.Task_Children = [];
         }
         parent.Task_Children.push(task);
+
+        break;
       }
-    });
+    }
+
+    // tasks.forEach((parent) => {
+    //   if (task.Task_Parent_ID === parent.Task_ID) {
+
+    //     // Child to parent.
+    //     task.Task_Parent = parent;
+
+    //     // Parent to child.
+    //     if (!parent.Task_Children) {
+    //       parent.Task_Children = [];
+    //     }
+    //     parent.Task_Children.push(task);
+    //   }
+    // });
 
     // Link tasks to employees.
-    employees.forEach((employee) => {
-      if (task.Task_Assigned_Employee_ID === employee.ID) {
-        task.Task_Assigned_Employee = employee;
-      }
-    });
+    for (var employee of employees) {
+        if (task.Task_Assigned_Employee_ID === employee.ID) {
+            task.Task_Assigned_Employee = employee;
+
+            break;
+        } 
+    }
+
+    // employees.forEach((employee) => {
+    //   if (task.Task_Assigned_Employee_ID === employee.ID) {
+    //     task.Task_Assigned_Employee = employee;
+    //   }
+    // });
 
   });
 
