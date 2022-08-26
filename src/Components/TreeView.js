@@ -10,6 +10,7 @@ function TreeView(props) {
       <thead>
         <tr>
           <th>Task_ID</th>
+          <th>Task_Level</th>
           <th>Task_Subject</th>
           <th>Task_Parent_ID</th>
           <th>Task_Parent</th>

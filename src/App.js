@@ -13,7 +13,7 @@ function App() {
 
 
 const dataSourceOptions = {
-  store: tasks.map((task) => {
+  store:  buildOrderedTasksTree(tasks.map((task) => {
 
     // Link a child task to its parent and a parent to its child.
     tasks.forEach((parent) => {
@@ -38,8 +38,50 @@ const dataSourceOptions = {
     });
 
     return task;
-  }),
+  })),
 };
+
+// get tasks level 0
+// sort tasks by name
+
+// for each task in L0
+//   get task children
+//   sort children by name
+//   insert children after the parent task
+
+function buildOrderedTasksTree(tasks)
+{
+  const orderedTasksTree = [];
+
+  tasks.forEach((task) => {
+    if (!task.Task_Parent)
+    {
+      task.Task_Level = 0;
+
+      orderedTasksTree.push(task);
+
+      buildOrderedChildrenTree(task.Task_Children, orderedTasksTree)
+    }
+  });
+
+  return orderedTasksTree;
+}
+
+
+function buildOrderedChildrenTree(children, tasksList)
+{
+  if (!children || children.length === 0)
+  {
+    return;
+  }
+
+  children.forEach((child) => {
+    child.Task_Level = child.Task_Parent.Task_Level + 1;
+
+    tasksList.push(child);
+    buildOrderedChildrenTree(child.Task_Children, tasksList)
+  });
+}
 
 
 export default App;
