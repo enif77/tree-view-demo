@@ -1,11 +1,16 @@
 function TreeViewItem(props) {
   const task = props.entity;
 
+  const parentInfo = (!task.Task_Parent)
+    ? 'root'
+    : task.Task_Parent.Task_Subject;
+
   return (
     <tr className="TreeViewItem">
       <td>{task.Task_ID}</td>
       <td>{task.Task_Subject}</td>
       <td>{task.Task_Parent_ID}</td>
+      <td>{parentInfo}</td>
     </tr>
   );
 }

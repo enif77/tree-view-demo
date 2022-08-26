@@ -12,6 +12,7 @@ function TreeView(props) {
           <th>Task_ID</th>
           <th>Task_Subject</th>
           <th>Task_Parent_ID</th>
+          <th>Task_Parent</th>
         </tr>
       </thead>
 
