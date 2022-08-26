@@ -5,15 +5,59 @@ import { employees, tasks } from './data.js';
 
 import TreeView from './Components/TreeView';
 
+var tasksLinked = false;
+
 function App() {
+  linkTasks(tasks);
+
+  const data = {
+    //store: tasks
+    store: buildOrderedTasksTree(tasks)
+  };
+
   return (
-    <TreeView data={dataSourceOptions} />
+    <TreeView data={data} />
   );
 }
 
 
-const dataSourceOptions = {
-  store:  buildOrderedTasksTree(tasks.map((task) => {
+// const dataSourceOptions = {
+//   store:  tasks.map((task) => {
+
+//     // Link a child task to its parent and a parent to its child.
+//     tasks.forEach((parent) => {
+//       if (task.Task_Parent_ID === parent.Task_ID) {
+
+//         // Child to parent.
+//         task.Task_Parent = parent;
+
+//         // Parent to child.
+//         if (!parent.Task_Children) {
+//           parent.Task_Children = [];
+//         }
+//         parent.Task_Children.push(task);
+//       }
+//     });
+
+//     // Link tasks to employees.
+//     employees.forEach((employee) => {
+//       if (task.Task_Assigned_Employee_ID === employee.ID) {
+//         task.Task_Assigned_Employee = employee;
+//       }
+//     });
+
+//     return task;
+//   }),
+// };
+
+
+function linkTasks(tasks)
+{
+  if (tasksLinked) return;
+
+  console.log('begin linkTasks()')
+
+  tasks.forEach((task) => {
 
     // Link a child task to its parent and a parent to its child.
     tasks.forEach((parent) => {
@@ -37,32 +81,41 @@ const dataSourceOptions = {
       }
     });
 
-    return task;
-  })),
-};
+  });
 
-// get tasks level 0
-// sort tasks by name
+  console.log('end linkTasks()')
 
-// for each task in L0
-//   get task children
-//   sort children by name
-//   insert children after the parent task
+  tasksLinked = true;
+}
+
 
 function buildOrderedTasksTree(tasks)
 {
-  const orderedTasksTree = [];
+  console.log('begin buildOrderedTasksTree()')
 
+  let orderedTasksTree = [];
+
+  const rooTaskList = [];
   tasks.forEach((task) => {
     if (!task.Task_Parent)
     {
       task.Task_Level = 0;
 
-      orderedTasksTree.push(task);
-
-      buildOrderedChildrenTree(task.Task_Children, orderedTasksTree)
+      rooTaskList.push(task);
     }
   });
+
+  rooTaskList.sort(function(taskA, taskB) {
+    return taskA.Task_Subject.localeCompare(taskB.Task_Subject)
+  });
+
+  rooTaskList.forEach((task) => {
+    orderedTasksTree.push(task);
+    
+    buildOrderedChildrenTree(task.Task_Children, orderedTasksTree);
+  });
+
+  console.log('end buildOrderedTasksTree()')
 
   return orderedTasksTree;
 }
@@ -75,13 +128,22 @@ function buildOrderedChildrenTree(children, tasksList)
     return;
   }
 
+  const childrenList = []; 
   children.forEach((child) => {
     child.Task_Level = child.Task_Parent.Task_Level + 1;
 
-    tasksList.push(child);
-    buildOrderedChildrenTree(child.Task_Children, tasksList)
+    childrenList.push(child);
+  });
+
+  childrenList.sort(function(taskA, taskB) {
+    return taskA.Task_Subject.localeCompare(taskB.Task_Subject)
+  });
+
+  childrenList.forEach((task) => {
+    tasksList.push(task);
+    
+    buildOrderedChildrenTree(task.Task_Children, tasksList);
   });
 }
-
 
 export default App;

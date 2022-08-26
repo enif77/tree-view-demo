@@ -43,6 +43,10 @@ export default TreeViewItem;
     Task_Priority: 4,
     Task_Completion: 100,
     Task_Parent_ID: 0,
+
+    Task_Parent,
+    Task_Children,
+    Task_Level,
 }
 
 */
