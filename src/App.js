@@ -1,17 +1,20 @@
-//import logo from './logo.svg';
 import './App.css';
 
+// Get data. Should come from an API.
 import { employees, tasks } from './data.js';
 
+// Import controlls.
 import TreeView from './Components/TreeView';
 
+
+// This flag stops the linkTasks() function to be called twice.
+// I am not sure, why this is happening... A debugger related problem?
 var tasksLinked = false;
 
 function App() {
   linkTasks(tasks);
 
   const data = {
-    //store: tasks
     store: buildOrderedTasksTree(tasks)
   };
 
@@ -105,9 +108,7 @@ function buildOrderedTasksTree(tasks)
     }
   });
 
-  rooTaskList.sort(function(taskA, taskB) {
-    return taskA.Task_Subject.localeCompare(taskB.Task_Subject)
-  });
+  rooTaskList.sort(CompareTasks);
 
   rooTaskList.forEach((task) => {
     orderedTasksTree.push(task);
@@ -135,15 +136,18 @@ function buildOrderedChildrenTree(children, tasksList)
     childrenList.push(child);
   });
 
-  childrenList.sort(function(taskA, taskB) {
-    return taskA.Task_Subject.localeCompare(taskB.Task_Subject)
-  });
+  childrenList.sort(CompareTasks);
 
   childrenList.forEach((task) => {
     tasksList.push(task);
     
     buildOrderedChildrenTree(task.Task_Children, tasksList);
   });
+}
+
+
+function CompareTasks(taskA, taskB) {
+  return taskA.Task_Subject.localeCompare(taskB.Task_Subject)
 }
 
 export default App;
