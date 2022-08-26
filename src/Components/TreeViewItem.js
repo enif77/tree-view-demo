@@ -5,17 +5,19 @@ function TreeViewItem(props) {
     ? 'root'
     : task.Task_Parent.Task_Subject;
 
-  var childrenInfo = '[';
+  var childrenInfo = '';
 
   if (task.Task_Children)
   {
+    childrenInfo = '['
+
     task.Task_Children.forEach((child) => {
       childrenInfo += child.Task_ID;
       childrenInfo += ', ';
     });
-  }
 
-  childrenInfo += ']';
+    childrenInfo += ']';
+  }
 
   return (
     <tr className="TreeViewItem">
