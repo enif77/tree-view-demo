@@ -15,12 +15,19 @@ function App() {
 const dataSourceOptions = {
   store: tasks.map((task) => {
 
-    // Link child tast to their parents.
+    // Link a child task to its parent and a parent to its child.
     tasks.forEach((parent) => {
       if (task.Task_Parent_ID === parent.Task_ID) {
-        task.Task_Parent = parent;
-      }
 
+        // Child to parent.
+        task.Task_Parent = parent;
+
+        // Parent to child.
+        if (!parent.Task_Children) {
+          parent.Task_Children = [];
+        }
+        parent.Task_Children.push(task);
+      }
     });
 
     // Link tasks to employees.
