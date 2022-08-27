@@ -6,6 +6,23 @@ Its my React learning project. I want to create a tree-view controll in a table.
 - Reads data from the `data.js` file (will be using `data.json` and the `typicode/json-server`).
 
 
+## Running the backend
+
+As a backend I am using the [https://github.com/typicode/json-server](json-server).
+
+Installed as a global tool:
+
+```
+npm install -g json-server
+```
+
+Go to the `src` folder and execute:
+
+```
+json-server --watch data.json --port 3004
+```
+
+
 ## Available Scripts
 
 In the project directory, you can run:
